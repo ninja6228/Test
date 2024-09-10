@@ -24,10 +24,13 @@ export default function List({ listProcut }: { listProcut: Product[] }) {
     setInitialFilteredProducts(filtered);
     setCurrentProducts(filtered.slice(0, itemsPerPage));
     setCurrentPage(1);
-  }, [searchTerm, products]);
+  }, [searchTerm]);
 
   const handleDelete = (id: number) => {
     setProducts(prevProducts => prevProducts.filter(product => product.id !== id));
+    const filteredProducts = initialFilteredProducts.filter(product => product.id !== id);
+    setInitialFilteredProducts(filteredProducts)
+    setCurrentProducts(filteredProducts.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage));
   }
 
   const handleOnDragEnd = useCallback((result: DropResult) => {
